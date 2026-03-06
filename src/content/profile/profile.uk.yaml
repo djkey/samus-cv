@@ -1,0 +1,24 @@
+name: "Самуськов Олександр Дмитрович"
+name_short: "О. Самуськов"
+title: "Розробник · Майстер виробничого навчання"
+photo: ""
+about: >
+  Розробник з досвідом у C++ та Python. Майстер виробничого навчання
+  у Вищому професійному училищі № 17. Аспірант. Займаюсь розробкою
+  кастомних проєктів, адмініструванням веб-сайтів та навчанням
+  майбутніх фахівців.
+
+skills:
+  - category: "Програмування"
+    items: ["C++", "Python", "HTML/CSS", "JavaScript", "SQL"]
+  - category: "Інструменти"
+    items: ["Git", "VS Code", "Linux"]
+  - category: "Викладання"
+    items: ["Методика навчання", "Розробка навчальних програм", "Адміністрування LMS"]
+
+contacts:
+  email: "hello@samus.dev"
+  github: "https://github.com/"
+  linkedin: "https://linkedin.com/in/"
+  telegram: "https://t.me/"
+  location: "Україна"

@@ -1,0 +1,23 @@
+name: "Oleksandr Samouskov"
+name_short: "O. Samouskov"
+title: "Developer · Vocational Training Instructor"
+photo: ""
+about: >
+  Developer experienced in C++ and Python. Vocational training instructor
+  at Vocational School No. 17. Postgraduate student. Engaged in custom
+  project development, web administration, and training future specialists.
+
+skills:
+  - category: "Programming"
+    items: ["C++", "Python", "HTML/CSS", "JavaScript", "SQL"]
+  - category: "Tools"
+    items: ["Git", "VS Code", "Linux"]
+  - category: "Teaching"
+    items: ["Teaching Methodology", "Curriculum Development", "LMS Administration"]
+
+contacts:
+  email: "hello@samus.dev"
+  github: "https://github.com/"
+  linkedin: "https://linkedin.com/in/"
+  telegram: "https://t.me/"
+  location: "Ukraine"

@@ -1,0 +1,152 @@
+/* ═══════════════════════════════════════════════════════════════
+   samus.dev — Print / PDF Styles
+   Applied via media="print" + used by WeasyPrint for PDF generation
+   ═══════════════════════════════════════════════════════════════ */
+
+@page {
+  size: A4;
+  margin: 1.5cm 2cm;
+}
+
+body {
+  background: #fff !important;
+  color: #1a1a1a !important;
+  font-size: 11pt;
+  line-height: 1.5;
+}
+
+/* ── Hide interactive / non-print elements ──────────────────── */
+.no-print,
+.lightbox,
+.filter-bar,
+.hero__actions,
+.card__img-overlay,
+.card__link {
+  display: none !important;
+}
+
+/* ── Reset dark backgrounds ─────────────────────────────────── */
+.topbar,
+.timeline__content,
+.card,
+.contact-item,
+.hero__placeholder {
+  background: transparent !important;
+  border-color: #ddd !important;
+  box-shadow: none !important;
+}
+
+/* ── Links — show URL for print ─────────────────────────────── */
+a { color: #1a1a1a !important; }
+a[href^="http"]::after {
+  content: " (" attr(href) ")";
+  font-size: 0.8em;
+  color: #666;
+  word-break: break-all;
+}
+a[href^="mailto"]::after {
+  content: none;
+}
+
+/* ── Hero ───────────────────────────────────────────────────── */
+.hero {
+  padding: 0 0 1rem;
+  gap: 1.5rem;
+}
+
+.hero__img {
+  width: 100px;
+  height: 100px;
+  border-color: #ccc !important;
+}
+
+.hero__placeholder {
+  width: 100px;
+  height: 100px;
+  border-color: #ccc !important;
+}
+
+.hero__name {
+  font-size: 1.8rem;
+}
+
+.hero__title {
+  color: #333 !important;
+  font-size: 1rem;
+}
+
+.hero__about {
+  color: #444 !important;
+}
+
+/* ── Sections ───────────────────────────────────────────────── */
+.section {
+  padding: 1rem 0;
+  break-inside: avoid;
+}
+
+.section__title {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+/* ── Timeline ───────────────────────────────────────────────── */
+.timeline__dot {
+  background: #333 !important;
+  border-color: #fff !important;
+}
+
+.timeline::before {
+  background: #ccc !important;
+}
+
+.timeline__period {
+  color: #333 !important;
+}
+
+.timeline__item {
+  break-inside: avoid;
+  margin-bottom: 1rem;
+}
+
+/* ── Cards ──────────────────────────────────────────────────── */
+.card {
+  break-inside: avoid;
+}
+
+.card:hover {
+  transform: none;
+}
+
+.card__meta,
+.card__text,
+.card__credits,
+.timeline__subtitle,
+.timeline__body {
+  color: #444 !important;
+}
+
+/* ── Tags ───────────────────────────────────────────────────── */
+.tag {
+  background: #eee !important;
+  color: #333 !important;
+  border: 1px solid #ccc;
+}
+
+/* ── Contacts ───────────────────────────────────────────────── */
+.contacts-grid {
+  gap: 0.5rem;
+}
+
+.contact-item {
+  padding: 0.5rem 0;
+  border: none !important;
+}
+
+/* ── Footer (for print — show URL) ──────────────────────────── */
+.footer {
+  border-top: 1px solid #ddd;
+  padding-top: 1rem;
+  font-size: 0.85rem;
+  color: #888 !important;
+}

@@ -1,0 +1,9 @@
+# Git LFS — track heavy image assets
+src/assets/certificates/*.jpg filter=lfs diff=lfs merge=lfs -text
+src/assets/certificates/*.jpeg filter=lfs diff=lfs merge=lfs -text
+src/assets/certificates/*.png filter=lfs diff=lfs merge=lfs -text
+src/assets/certificates/*.webp filter=lfs diff=lfs merge=lfs -text
+src/assets/projects/*.jpg filter=lfs diff=lfs merge=lfs -text
+src/assets/projects/*.jpeg filter=lfs diff=lfs merge=lfs -text
+src/assets/projects/*.png filter=lfs diff=lfs merge=lfs -text
+src/assets/projects/*.webp filter=lfs diff=lfs merge=lfs -text

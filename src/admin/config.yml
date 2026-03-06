@@ -1,0 +1,131 @@
+# ┌──────────────────────────────────────────────────────────────┐
+# │  Decap CMS — конфигурация для samus.dev                     │
+# │                                                              │
+# │  ⚠  ПЕРЕД ИСПОЛЬЗОВАНИЕМ:                                   │
+# │  1. Замените OWNER/samus-cv на ваш username/repo             │
+# │  2. Создайте GitHub OAuth App:                               │
+# │     GitHub → Settings → Developer settings → OAuth Apps      │
+# │     - Homepage URL: https://samus.dev                        │
+# │     - Callback URL: https://samus.dev/admin/                 │
+# │  3. Раскомментируйте auth_type и app_id ниже                │
+# └──────────────────────────────────────────────────────────────┘
+
+backend:
+  name: github
+  repo: OWNER/samus-cv
+  branch: main
+  # auth_type: pkce
+  # app_id: YOUR_GITHUB_OAUTH_APP_CLIENT_ID
+
+i18n:
+  structure: multiple_files
+  locales: [ru, uk, en]
+  default_locale: ru
+
+media_folder: src/assets
+public_folder: /assets
+
+collections:
+  # ── Профиль ────────────────────────────────────────────────
+  - name: settings
+    label: "⚙️ Настройки"
+    files:
+      - name: profile
+        label: "Профиль"
+        file: "src/content/profile/profile.yaml"
+        i18n: true
+        fields:
+          - { name: name, label: "ФИО", widget: string, i18n: true }
+          - { name: name_short, label: "Короткое имя", widget: string, i18n: true }
+          - { name: title, label: "Должность / роль", widget: string, i18n: true }
+          - { name: photo, label: "Фото", widget: image, required: false, i18n: duplicate }
+          - { name: about, label: "О себе", widget: text, i18n: true }
+          - name: skills
+            label: "Навыки"
+            widget: list
+            i18n: true
+            fields:
+              - { name: category, label: "Категория", widget: string }
+              - name: items
+                label: "Навыки"
+                widget: list
+                field: { name: item, label: "Навык", widget: string }
+          - name: contacts
+            label: "Контакты"
+            widget: object
+            i18n: duplicate
+            fields:
+              - { name: email, label: "Email", widget: string, required: false }
+              - { name: github, label: "GitHub URL", widget: string, required: false }
+              - { name: linkedin, label: "LinkedIn URL", widget: string, required: false }
+              - { name: telegram, label: "Telegram URL", widget: string, required: false }
+              - { name: location, label: "Местоположение", widget: string, required: false, i18n: true }
+
+  # ── Опыт работы ────────────────────────────────────────────
+  - name: experience
+    label: "💼 Опыт работы"
+    folder: src/content/experience
+    create: true
+    slug: "{{slug}}"
+    i18n: true
+    sortable_fields: [order, startDate]
+    fields:
+      - { name: title, label: "Должность", widget: string, i18n: true }
+      - { name: company, label: "Компания / организация", widget: string, i18n: true }
+      - { name: startDate, label: "Начало работы", widget: string }
+      - { name: endDate, label: "Окончание", widget: string, required: false }
+      - { name: current, label: "По настоящее время", widget: boolean, default: false }
+      - { name: order, label: "Порядок отображения", widget: number, default: 10 }
+      - { name: body, label: "Описание", widget: markdown, i18n: true }
+
+  # ── Проекты ────────────────────────────────────────────────
+  - name: projects
+    label: "🚀 Проекты"
+    folder: src/content/projects
+    create: true
+    slug: "{{slug}}"
+    i18n: true
+    fields:
+      - { name: title, label: "Название", widget: string, i18n: true }
+      - { name: image, label: "Скриншот", widget: image, required: false, i18n: duplicate }
+      - { name: url, label: "Ссылка", widget: string, required: false }
+      - name: tags
+        label: "Технологии"
+        widget: list
+        field: { name: tag, label: "Тег", widget: string }
+      - { name: order, label: "Порядок", widget: number, default: 10 }
+      - { name: body, label: "Описание", widget: markdown, i18n: true }
+
+  # ── Образование ────────────────────────────────────────────
+  - name: education
+    label: "🎓 Образование"
+    folder: src/content/education
+    create: true
+    slug: "{{slug}}"
+    i18n: true
+    fields:
+      - { name: title, label: "Специальность / направление", widget: string, i18n: true }
+      - { name: institution, label: "Учебное заведение", widget: string, i18n: true }
+      - { name: degree, label: "Степень / квалификация", widget: string, required: false, i18n: true }
+      - { name: startDate, label: "Начало", widget: string }
+      - { name: endDate, label: "Окончание", widget: string, required: false }
+      - { name: current, label: "Учусь сейчас", widget: boolean, default: false }
+      - { name: order, label: "Порядок", widget: number, default: 10 }
+      - { name: body, label: "Описание", widget: markdown, i18n: true }
+
+  # ── Сертификаты ────────────────────────────────────────────
+  - name: certificates
+    label: "📜 Сертификаты"
+    folder: src/content/certificates
+    create: true
+    slug: "{{slug}}"
+    i18n: true
+    fields:
+      - { name: title, label: "Название", widget: string, i18n: true }
+      - { name: issuer, label: "Кто выдал", widget: string, i18n: true }
+      - { name: date, label: "Дата получения", widget: string }
+      - { name: category, label: "Категория", widget: select, options: ["it", "teaching", "other"], default: "other" }
+      - { name: credits, label: "Кредиты / часы", widget: number, required: false }
+      - { name: image, label: "Скан / фото", widget: image, required: false, i18n: duplicate }
+      - { name: order, label: "Порядок", widget: number, default: 10 }
+      - { name: body, label: "Описание", widget: markdown, required: false, i18n: true }

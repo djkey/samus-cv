@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ profile.name }} — {{ profile.ui.page_title }}</title>
+  {% if profile.about %}
+  <meta name="description" content="{{ profile.about | truncate(200, true, '…') }}">
+  {% endif %}
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="{{ profile.name }} — {{ profile.ui.page_title }}">
+  {% if profile.about %}
+  <meta property="og:description" content="{{ profile.about | truncate(200, true, '…') }}">
+  {% endif %}
+  <meta property="og:type" content="profile">
+  <meta property="og:url" content="https://samus.dev{% if lang != default_lang %}/{{ lang }}{% endif %}">
+
+  <link rel="stylesheet" href="{{ base_url }}/css/style.css">
+  <link rel="stylesheet" href="{{ base_url }}/css/print.css" media="print">
+</head>
+<body>
+
+  <!-- ── Top Bar ──────────────────────────────────────────── -->
+  <nav class="topbar no-print">
+    <div class="topbar__inner">
+      <a href="{{ base_url }}/" class="topbar__logo">
+        {{ profile.name_short | default('samus.dev') }}
+      </a>
+      <div class="topbar__right">
+        <div class="lang-switcher">
+          {% for l in languages %}
+          {% if l == lang %}
+          <span class="lang-switcher__item lang-switcher__item--active">{{ l | upper }}</span>
+          {% elif l == default_lang %}
+          <a href="{{ base_url }}/" class="lang-switcher__item">{{ l | upper }}</a>
+          {% else %}
+          <a href="{{ base_url }}/{{ l }}/" class="lang-switcher__item">{{ l | upper }}</a>
+          {% endif %}
+          {% endfor %}
+        </div>
+        <a href="#" class="btn btn--outline btn--sm">🔒 {{ profile.ui.dashboard }}</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+
+    <!-- ── Hero ────────────────────────────────────────────── -->
+    <section class="hero" id="top">
+      <div class="hero__photo">
+        {% if profile.photo %}
+        <img src="{{ base_url }}/{{ profile.photo }}" alt="{{ profile.name }}" class="hero__img">
+        {% else %}
+        <div class="hero__placeholder">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="80" height="80">
+            <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+          </svg>
+        </div>
+        {% endif %}
+      </div>
+      <div class="hero__info">
+        <h1 class="hero__name">{{ profile.name }}</h1>
+        <p class="hero__title">{{ profile.title }}</p>
+        {% if profile.about %}
+        <p class="hero__about">{{ profile.about }}</p>
+        {% endif %}
+        <div class="hero__actions no-print">
+          <a href="{{ base_url }}/resume{% if lang != default_lang %}-{{ lang }}{% endif %}.pdf"
+             class="btn btn--accent" download>
+            📄 {{ profile.ui.download_pdf }}
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Experience ─────────────────────────────────────── -->
+    {% if experience %}
+    <section class="section" id="experience">
+      <h2 class="section__title">
+        <span class="section__icon">💼</span>
+        {{ profile.ui.experience }}
+      </h2>
+      <div class="timeline">
+        {% for job in experience %}
+        <article class="timeline__item">
+          <div class="timeline__dot"></div>
+          <div class="timeline__content">
+            <div class="timeline__period">
+              {{ job.startDate }} — {% if job.current %}{{ profile.ui.current }}{% else %}{{ job.endDate }}{% endif %}
+            </div>
+            <h3 class="timeline__title">{{ job.title }}</h3>
+            <p class="timeline__subtitle">{{ job.company }}</p>
+            <div class="timeline__body">{{ job.content }}</div>
+          </div>
+        </article>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
+    <!-- ── Projects ───────────────────────────────────────── -->
+    {% if projects %}
+    <section class="section" id="projects">
+      <h2 class="section__title">
+        <span class="section__icon">🚀</span>
+        {{ profile.ui.projects }}
+      </h2>
+      <div class="cards-grid">
+        {% for project in projects %}
+        <article class="card">
+          {% if project.image %}
+          <img src="{{ base_url }}/img/projects/{{ project.image | thumb('medium') }}"
+               alt="{{ project.title }}" class="card__img" loading="lazy"
+               onerror="this.src='{{ base_url }}/assets/projects/{{ project.image }}'">
+          {% endif %}
+          <div class="card__body">
+            <h3 class="card__title">{{ project.title }}</h3>
+            {% if project.tags %}
+            <div class="card__tags">
+              {% for tag in project.tags %}
+              <span class="tag">{{ tag }}</span>
+              {% endfor %}
+            </div>
+            {% endif %}
+            <div class="card__text">{{ project.content }}</div>
+            {% if project.url %}
+            <a href="{{ project.url }}" class="card__link no-print" target="_blank" rel="noopener">
+              → {{ project.url }}
+            </a>
+            {% endif %}
+          </div>
+        </article>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
+    <!-- ── Education ──────────────────────────────────────── -->
+    {% if education %}
+    <section class="section" id="education">
+      <h2 class="section__title">
+        <span class="section__icon">🎓</span>
+        {{ profile.ui.education }}
+      </h2>
+      <div class="timeline">
+        {% for edu in education %}
+        <article class="timeline__item">
+          <div class="timeline__dot"></div>
+          <div class="timeline__content">
+            <div class="timeline__period">
+              {{ edu.startDate }}{% if edu.endDate %} — {{ edu.endDate }}{% endif %}{% if edu.current %} — {{ profile.ui.current }}{% endif %}
+            </div>
+            <h3 class="timeline__title">{{ edu.title }}</h3>
+            <p class="timeline__subtitle">{{ edu.institution }}</p>
+            {% if edu.degree %}
+            <p class="timeline__degree">{{ edu.degree }}</p>
+            {% endif %}
+            <div class="timeline__body">{{ edu.content }}</div>
+          </div>
+        </article>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
+    <!-- ── Skills ─────────────────────────────────────────── -->
+    {% if profile.skills %}
+    <section class="section" id="skills">
+      <h2 class="section__title">
+        <span class="section__icon">⚡</span>
+        {{ profile.ui.skills }}
+      </h2>
+      <div class="skills">
+        {% for group in profile.skills %}
+        <div class="skills__group">
+          <h3 class="skills__category">{{ group.category }}</h3>
+          <div class="skills__list">
+            {% for skill in group['items'] %}
+            <span class="tag">{{ skill }}</span>
+            {% endfor %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
+    <!-- ── Certificates ───────────────────────────────────── -->
+    {% if certificates %}
+    <section class="section" id="certificates">
+      <h2 class="section__title">
+        <span class="section__icon">📜</span>
+        {{ profile.ui.certificates }}
+      </h2>
+
+      <div class="filter-bar no-print">
+        <button class="filter-btn active" data-filter="all">{{ profile.ui.all }}</button>
+        <button class="filter-btn" data-filter="it">{{ profile.ui.it }}</button>
+        <button class="filter-btn" data-filter="teaching">{{ profile.ui.teaching }}</button>
+        <button class="filter-btn" data-filter="other">{{ profile.ui.other }}</button>
+      </div>
+
+      <div class="cards-grid" id="cert-grid">
+        {% for cert in certificates %}
+        <article class="card cert-card" data-category="{{ cert.category | default('other') }}">
+          {% if cert.image %}
+          <div class="card__img-wrap" data-lightbox="{{ base_url }}/assets/certificates/{{ cert.image }}">
+            <img src="{{ base_url }}/img/certificates/{{ cert.image | thumb('small') }}"
+                 alt="{{ cert.title }}" class="card__img" loading="lazy"
+                 onerror="this.src='{{ base_url }}/assets/certificates/{{ cert.image }}'">
+            <div class="card__img-overlay no-print">🔍</div>
+          </div>
+          {% endif %}
+          <div class="card__body">
+            <h3 class="card__title">{{ cert.title }}</h3>
+            <p class="card__meta">
+              {{ cert.issuer }}{% if cert.date %} · {{ cert.date }}{% endif %}
+            </p>
+            {% if cert.credits %}
+            <p class="card__credits">{{ cert.credits }} {{ profile.ui.credits_label }}</p>
+            {% endif %}
+            <div class="card__text">{{ cert.content }}</div>
+          </div>
+        </article>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
+    <!-- ── Contacts ───────────────────────────────────────── -->
+    {% if profile.contacts %}
+    <section class="section" id="contacts">
+      <h2 class="section__title">
+        <span class="section__icon">📬</span>
+        {{ profile.ui.contacts }}
+      </h2>
+      <div class="contacts-grid">
+        {% if profile.contacts.email %}
+        <a href="mailto:{{ profile.contacts.email }}" class="contact-item">
+          <span class="contact-item__icon">✉️</span>
+          <span>{{ profile.contacts.email }}</span>
+        </a>
+        {% endif %}
+        {% if profile.contacts.github %}
+        <a href="{{ profile.contacts.github }}" class="contact-item" target="_blank" rel="noopener">
+          <span class="contact-item__icon">🐙</span>
+          <span>GitHub</span>
+        </a>
+        {% endif %}
+        {% if profile.contacts.linkedin %}
+        <a href="{{ profile.contacts.linkedin }}" class="contact-item" target="_blank" rel="noopener">
+          <span class="contact-item__icon">💼</span>
+          <span>LinkedIn</span>
+        </a>
+        {% endif %}
+        {% if profile.contacts.telegram %}
+        <a href="{{ profile.contacts.telegram }}" class="contact-item" target="_blank" rel="noopener">
+          <span class="contact-item__icon">✈️</span>
+          <span>Telegram</span>
+        </a>
+        {% endif %}
+        {% if profile.contacts.location %}
+        <div class="contact-item">
+          <span class="contact-item__icon">📍</span>
+          <span>{{ profile.contacts.location }}</span>
+        </div>
+        {% endif %}
+      </div>
+    </section>
+    {% endif %}
+
+  </main>
+
+  <!-- ── Footer ───────────────────────────────────────────── -->
+  <footer class="footer no-print">
+    <div class="container">
+      <p>© {{ now.year }} {{ profile.name_short | default(profile.name) }} · <a href="https://samus.dev">samus.dev</a></p>
+    </div>
+  </footer>
+
+  <!-- ── Lightbox ─────────────────────────────────────────── -->
+  <div class="lightbox no-print" id="lightbox">
+    <button class="lightbox__close" aria-label="Close">&times;</button>
+    <img class="lightbox__img" id="lightbox-img" alt="">
+  </div>
+
+  <script src="{{ base_url }}/js/main.js"></script>
+</body>
+</html>
