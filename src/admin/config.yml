@@ -45,15 +45,16 @@ collections:
             widget: list
             i18n: true
             fields:
-              - { name: category, label: "Категория", widget: string }
+              - { name: category, label: "Категория", widget: string, i18n: true }
               - name: items
                 label: "Навыки"
                 widget: list
+                i18n: true
                 field: { name: item, label: "Навык", widget: string }
           - name: contacts
             label: "Контакты"
             widget: object
-            i18n: duplicate
+            i18n: true
             fields:
               - { name: email, label: "Email", widget: string, required: false }
               - { name: github, label: "GitHub URL", widget: string, required: false }
